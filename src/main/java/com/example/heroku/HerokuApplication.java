@@ -92,7 +92,7 @@ public class HerokuApplication {
     }
   }
 
-  System.out.println("Paul Vanderveen");
+
 
   @Bean
   public DataSource dataSource() throws SQLException {
