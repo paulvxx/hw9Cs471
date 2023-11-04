@@ -81,7 +81,7 @@ public class HerokuApplication {
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
         String st = getRandomString();
-        output.add("Read from DB: " + rs.getTimestamp("tick") + " " + rs.getTimestamp("random_string"));
+        output.add("Read from DB: " + rs.getTimestamp("tick") + " " + rs.getString("random_string"));
       }
 
       System.out.println("Print Statement:  Paul Vanderveen");
