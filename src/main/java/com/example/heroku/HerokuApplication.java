@@ -76,7 +76,7 @@ public class HerokuApplication {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS table_timestamp_and_random_string (tick timestamp, random_string varchar(30))");
       stmt.executeUpdate("INSERT INTO table_timestamp_and_random_string VALUES (now(), '" + getRandomString() + "')");
-      ResultSet rs = stmt.executeQuery("SELECT tick,random_string FROM ticks");
+      ResultSet rs = stmt.executeQuery("SELECT tick,random_string FROM table_timestamp_and_random_string");
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
@@ -91,6 +91,8 @@ public class HerokuApplication {
       return "error";
     }
   }
+
+  System.out.println("Paul Vanderveen");
 
   @Bean
   public DataSource dataSource() throws SQLException {
