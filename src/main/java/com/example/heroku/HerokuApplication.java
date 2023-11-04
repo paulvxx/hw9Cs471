@@ -62,14 +62,15 @@ public class HerokuApplication {
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
+      String my_str = getRandomString();
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS table_timestamp_and_random_string (tick timestamp, random_string varchar(30))");
-      stmt.executeUpdate("INSERT INTO table_timestamp_and_random_string VALUES (now(), '" + getRandomString() + "')");
+      stmt.executeUpdate("INSERT INTO table_timestamp_and_random_string VALUES (now(), '" + my_str + "')");
       ResultSet rs = stmt.executeQuery("SELECT tick,random_string FROM ticks");
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
-        output.add("Read from DB: " + "what the heck" + rs.getTimestamp("tick") + " hello " + rs.getTimestamp("random_string"));
+        output.add("Read from DB: " + rs.getTimestamp("tick") + " " + my_str);
       }
 
       model.put("records", output);
