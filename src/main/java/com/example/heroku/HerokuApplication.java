@@ -80,7 +80,8 @@ public class HerokuApplication {
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
-        output.add("Read from DB: " + rs.getTimestamp("tick") + " " + my_str);
+        String st = getRandomString();
+        output.add("Read from DB: " + rs.getTimestamp("tick") + " " + st);
       }
 
       model.put("records", output);
