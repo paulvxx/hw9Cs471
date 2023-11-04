@@ -38,6 +38,9 @@ import java.util.Map;
 @SpringBootApplication
 public class HerokuApplication {
 
+  // used for pseudorandom string generation
+  //private int s = 10;
+
   @Value("${spring.datasource.url}")
   private String dbUrl;
 
@@ -53,17 +56,20 @@ public class HerokuApplication {
     return "index";
   }
 
+  String getRandomString() {
+    return ("cool");
+  }
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-      stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-      ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS table_timestamp_and_random_string (tick timestamp, random_string varchar(30))");
+      stmt.executeUpdate("INSERT INTO table_timestamp_and_random_string VALUES (now(), '" + getRandomString() + "')");
+      ResultSet rs = stmt.executeQuery("SELECT tick,random_string FROM ticks");
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
-        output.add("Read from DB: " + rs.getTimestamp("tick"));
+        output.add("Read from DB: " + rs.getTimestamp("tick") + " hello " + rs.getTimestamp("random_string"));
       }
 
       model.put("records", output);
