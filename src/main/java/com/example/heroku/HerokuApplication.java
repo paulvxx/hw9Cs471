@@ -33,13 +33,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 
 @Controller
 @SpringBootApplication
 public class HerokuApplication {
-
-  // used for pseudorandom string generation
-  //private int s = 10;
+  private Random rand = new Random();
 
   @Value("${spring.datasource.url}")
   private String dbUrl;
@@ -57,7 +56,18 @@ public class HerokuApplication {
   }
 
   String getRandomString() {
-    return ("cool");
+    String rstring = "";
+    for (int i = 0; i < 10; i++) {
+      int r = rand.nextInt();
+      r = (3*r + rand.nextInt());
+      while (r < 0) {
+        r = rand.nextInt();
+        r = (3*r + rand.nextInt());
+      }
+      r = r % 256;
+      rstring = rstring + ("" + (char) r);
+    }
+    return rstring;
   }
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
@@ -66,7 +76,7 @@ public class HerokuApplication {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS table_timestamp_and_random_string (tick timestamp, random_string varchar(30))");
       stmt.executeUpdate("INSERT INTO table_timestamp_and_random_string VALUES (now(), '" + my_str + "')");
-      ResultSet rs = stmt.executeQuery("SELECT tick,random_string FROM ticks");
+      ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
