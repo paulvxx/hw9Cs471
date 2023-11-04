@@ -69,7 +69,7 @@ public class HerokuApplication {
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
-        output.add("Read from DB: " + rs.getTimestamp("tick") + " hello " + rs.getTimestamp("random_string"));
+        output.add("Read from DB: " + "what the heck" + rs.getTimestamp("tick") + " hello " + rs.getTimestamp("random_string"));
       }
 
       model.put("records", output);
