@@ -64,7 +64,7 @@ public class HerokuApplication {
         r = rand.nextInt();
         r = (3*r + rand.nextInt());
       }
-      r = r % 256;
+      r = 97 + (r % 26);
       rstring = rstring + ("" + (char) r);
     }
     return rstring;
